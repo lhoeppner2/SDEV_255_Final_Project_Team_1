@@ -1,0 +1,2 @@
+database: https://cloud.mongodb.com/v2/674e4be370b14e77605c379f#/metrics/replicaSet/674e4ce63fca1410638d285f/explorer/SDEV_255_Final_Project_Team_1/courses/find
+user: logan password: test1234
