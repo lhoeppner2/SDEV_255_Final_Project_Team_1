@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <%- include('./partials/nav.ejs') %>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1>Create a New Course</h1>
+        <form action="/courses" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Course Name</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="subjectArea" class="form-label">Subject Area</label>
+                <input type="text" id="subjectArea" name="subjectArea" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="credits" class="form-label">Credits</label>
+                <input type="number" id="credits" name="credits" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Course</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
