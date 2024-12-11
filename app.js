@@ -2,7 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Course = require('./models/course');
-
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const authRoutes = require('./routes/authRoutes');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 // express app
 const app = express();
@@ -15,19 +18,30 @@ mongoose.connect(dbURI)
 
 // register view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // middleware and static files
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+app.use(express.json());
+app.use(cookieParser());
 
 // routes
+app.get('*', checkUser);
+app.use(authRoutes);
 app.get('/', (req, res) => {
     res.redirect('/index');
 });
 
 app.get('/index', (req, res) => {
     res.render('index', { title: 'Login' });
+});
+
+app.get('/signup', (req, res) => {
+    console.log('Rendering signup page with title:', 'Sign Up');
+
+    res.render('signup', { title: 'Sign Up' });
 });
 
 

@@ -48,6 +48,10 @@ router.get('/login', (req, res) => {
   res.render(`${__dirname}/views/login.ejs`);
 });
 
+// Sign Up
+
+
+
 // 404
 router.get('*', (req, res) => {
   res.sendFile(`${__dirname}/views/404.html`);
