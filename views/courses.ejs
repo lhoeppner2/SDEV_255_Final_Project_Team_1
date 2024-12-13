@@ -20,23 +20,43 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
-                                    <%= course.name %>
+                                    <%= course.courseId %>: <%= course.name %>
                                 </button>
                             </h2>
                             <div id="collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
+                                    Course ID: <%= course.courseId %><br>
+                                    Name: <%= course.name %><br>
                                     Subject Area: <%= course.subject %><br>
-                                    ID: <%= course._id %><br>
                                     Credits: <%= course.credits %><br>
-                                    Description: <%= course.description %>
+                                    Description: <%= course.description %><br>
+                                    Enrolled Students: <%= course.students.length %> <!-- Displays the count of enrolled students -->
                                 </div>
-                                <!-- Update and Delete buttons in each course accordion item -->
-                                <button class="btn btn-warning w-20">
-                                    <a href="/courses/<%= course._id %>/edit" class="text-decoration-none text-white">Update</a>
-                                </button>
-                                <form action="/courses/<%= course._id %>/delete" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger w-20">Delete</button>
-                                </form>
+                                <!-- Teacher view -->
+                                <% if (user && user.studentOrTeacher === 'teacher') { %>
+                                    <button class="btn btn-warning w-20">
+                                        <a href="/courses/<%= course._id %>/edit" class="text-decoration-none text-white">Update</a>
+                                    </button>
+                                    <form action="/courses/<%= course._id %>/delete" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger w-20">Delete</button>
+                                    </form>
+                                <% } %>
+                                <!-- Student view-->
+                                <% if (user && user.studentOrTeacher === 'student') { %>
+                                    <% if (user.schedule && user.schedule.includes(course._id)) { %>
+                                        <!-- Show "Drop" button if the course is already in the student's schedule -->
+                                        <form action="/student/schedule/drop" method="POST" style="display:inline;">
+                                            <input type="hidden" name="courseId" value="<%= course._id %>">
+                                            <button type="submit" class="btn btn-danger">Drop</button>
+                                        </form>
+                                    <% } else { %>
+                                        <!-- Show "Add" button if the course is not in the student's schedule -->
+                                        <form action="/student/schedule/add" method="POST" style="display:inline;">
+                                            <input type="hidden" name="courseId" value="<%= course._id %>">
+                                            <button type="submit" class="btn btn-primary">Add to Schedule</button>
+                                        </form>                                        
+                                    <% } %>
+                                <% } %>
                             </div>
                         </div>
                     <% }) %>
