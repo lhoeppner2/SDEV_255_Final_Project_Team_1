@@ -10,26 +10,33 @@
                 <% if (user) { %>
                     <li class="nav-item nav-link">Welcome, <%= user.email %>
                     </li>
-                    <li><a class="nav-link" href="/logout">Log out</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/schedule">My Schedule</a>
-                    </li>
-                    <% } else { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/index">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/signup">Sign Up</a>
-                        </li>
+                    <li><a class="nav-link" href="/logout">Log out</a></li>
 
+                    <!-- If the user is a student, show "My Schedule" -->
+                    <% if (user.studentOrTeacher==='student' ) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/schedule">My Schedule</a>
+                        </li>
                         <% } %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/courses">Courses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/courses/new">Create Course</a>
-                            </li>
+
+                            <!-- If the user is a teacher, show "Create Course" -->
+                            <% if (user.studentOrTeacher==='teacher' ) { %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/courses/new">Create Course</a>
+                                </li>
+                                <% } %>
+                                    <% } else { %>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/index">Login</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/signup">Sign Up</a>
+                                        </li>
+                                        <% } %>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/courses">Courses</a>
+                                            </li>
             </ul>
         </div>
     </div>

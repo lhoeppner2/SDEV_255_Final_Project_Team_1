@@ -22,7 +22,12 @@ const userSchema = new mongoose.Schema({
   },
   studentOrTeacher: {
     type: String,
-  }
+    enum: ['student', 'teacher'], // Enforce roles
+    required: [true, 'Please specify if the user is a student or a teacher'],
+  },
+  schedule: [{ 
+    type: Array
+  }],
 });
 
 // fire a function before doc saved to db
