@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.get('*', checkUser); // Apply checkUser middleware to all routes
 app.use(authRoutes); // Authentication routes
 app.use(courseRoutes); // Course-related routes
-app.use('/student', studentRoutes); // Student and schedule routes
+app.use(/* '/student',  */studentRoutes); // Student and schedule routes
 app.get('/', (req, res) => res.redirect('/index'));
 app.get('/index', (req, res) => res.render('index', { title: 'Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign Up' }));

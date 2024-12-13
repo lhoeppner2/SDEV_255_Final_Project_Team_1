@@ -7,7 +7,7 @@ const requireAuth = async (req, res, next) => {
   if (token) {
     try {
       // Verify the JWT asynchronously
-      const decodedToken = await jwt.verify(token, 'sdev255');
+      const decodedToken = jwt.verify(token, 'sdev255');
       console.log("Decoded Token:", decodedToken);
 
       // Ensure the user is set correctly in req.user

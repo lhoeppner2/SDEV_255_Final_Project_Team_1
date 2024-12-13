@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please specify if the user is a student or a teacher'],
   },
   schedule: [{ 
-    type: Array
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course',
   }],
 });
 

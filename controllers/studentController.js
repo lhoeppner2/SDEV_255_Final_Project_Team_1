@@ -2,17 +2,16 @@ const User = require('../models/User');
 const Course = require('../models/Course');
 
 // Controller to view the student's schedule
-exports.viewSchedule = async (req, res) => {
+const viewSchedule = async (req, res) => {
+  console.log('inside viewSchedule');
   try {
-    const user = await User.findById(req.user._id);
-    const courses = await Course.find({}); // Fetch all available courses
-    
-    // Fetch courses from the schedule based on course IDs
-    const userCourses = user.schedule.map(courseId => {
-      return courses.find(course => course._id.toString() === courseId.toString());
-    }).filter(course => course);  // Filter out any invalid course entries
+    const user = await User.findById(req.user._id).populate('schedule');
 
-    res.render('schedule', { user, courses, userCourses });
+    console.log(user);
+    console.log(user.schedule);
+
+    res.render('schedule', { user });
+
   } catch (err) {
     console.log(err);
     res.status(500).send('Error fetching schedule');
@@ -20,12 +19,17 @@ exports.viewSchedule = async (req, res) => {
 };
 
 // Controller to add a course to the student's schedule
-exports.addCourse = async (req, res) => {
+const addCourse = async (req, res) => {
   const { courseId } = req.body;
   try {
+    // Find the logged-in user
     const user = await User.findById(req.user._id);
-    const course = await Course.findById(courseId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
 
+    // Find the course by ID
+    const course = await Course.findById(courseId);
     if (!course) {
       return res.status(404).send('Course not found');
     }
@@ -46,7 +50,7 @@ exports.addCourse = async (req, res) => {
 };
 
 // Controller to drop a course from the student's schedule
-exports.dropCourse = async (req, res) => {
+const dropCourse = async (req, res) => {
   const { courseId } = req.body;
   try {
     const user = await User.findById(req.user._id);
@@ -65,4 +69,10 @@ exports.dropCourse = async (req, res) => {
     console.log(err);
     res.status(500).send('Error dropping course');
   }
+};
+
+module.exports = {
+  viewSchedule,
+  addCourse,
+  dropCourse
 };
