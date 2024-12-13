@@ -45,13 +45,13 @@
                                 <% if (user && user.studentOrTeacher === 'student') { %>
                                     <% if (user.schedule && user.schedule.includes(course._id)) { %>
                                         <!-- Show "Drop" button if the course is already in the student's schedule -->
-                                        <form action="/student/schedule/drop" method="POST" style="display:inline;">
+                                        <form action="/schedule/drop" method="POST" style="display:inline;">
                                             <input type="hidden" name="courseId" value="<%= course._id %>">
                                             <button type="submit" class="btn btn-danger">Drop</button>
                                         </form>
                                     <% } else { %>
                                         <!-- Show "Add" button if the course is not in the student's schedule -->
-                                        <form action="/student/schedule/add" method="POST" style="display:inline;">
+                                        <form action="/schedule/add" method="POST" style="display:inline;">
                                             <input type="hidden" name="courseId" value="<%= course._id %>">
                                             <button type="submit" class="btn btn-primary">Add to Schedule</button>
                                         </form>                                        
