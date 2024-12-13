@@ -37,7 +37,7 @@
                                                                     Credits: <%= course.credits %><br>
                                                                         Description: <%= course.description %><br>
                                                     </div>
-                                                    <form action="/student/schedule/drop" method="POST"
+                                                    <form action="/schedule/drop" method="POST"
                                                         style="display:inline;">
                                                         <input type="hidden" name="courseId" value="<%= course._id %>">
                                                         <button type="submit" class="btn btn-danger">Drop</button>
