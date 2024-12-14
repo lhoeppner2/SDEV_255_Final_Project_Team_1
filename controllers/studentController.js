@@ -3,13 +3,8 @@ const Course = require('../models/Course');
 
 // Controller to view the student's schedule
 const viewSchedule = async (req, res) => {
-  console.log('inside viewSchedule');
   try {
     const user = await User.findById(req.user._id).populate('schedule');
-
-    console.log(user);
-    console.log(user.schedule);
-
     res.render('schedule', { user });
 
   } catch (err) {
