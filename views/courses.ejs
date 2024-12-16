@@ -41,36 +41,41 @@
                                         </div>
                                         <!-- Teacher view -->
                                         <% if (user && user.studentOrTeacher==='teacher' ) { %>
-                                            <button class="btn btn-warning w-20">
-                                                <a href="/courses/<%= course._id %>/edit"
-                                                    class="text-decoration-none text-white">Update</a>
-                                            </button>
-                                            <form action="/courses/<%= course._id %>/delete" method="POST"
-                                                style="display:inline;">
-                                                <button type="submit" class="btn btn-danger w-20">Delete</button>
-                                            </form>
-                                            <% } %>
-                                                <!-- Student view-->
-                                                <% if (user && user.studentOrTeacher==='student' ) { %>
-                                                    <% if (user.schedule && user.schedule.includes(course._id)) { %>
-                                                        <!-- Show "Drop" button if the course is already in the student's schedule -->
-                                                        <form action="/schedule/drop" method="POST"
-                                                            style="display:inline;">
-                                                            <input type="hidden" name="courseId"
-                                                                value="<%= course._id %>">
-                                                            <button type="submit" class="btn btn-danger">Drop</button>
-                                                        </form>
-                                                        <% } else { %>
-                                                            <!-- Show "Add" button if the course is not in the student's schedule -->
-                                                            <form action="/schedule/add" method="POST"
-                                                                style="display:inline;">
-                                                                <input type="hidden" name="courseId"
-                                                                    value="<%= course._id %>">
-                                                                <button type="submit" class="btn btn-primary">Add to
-                                                                    Schedule</button>
-                                                            </form>
-                                                            <% } %>
-                                                                <% } %>
+                                            <% if (user.schedule && user.schedule.includes(course._id)) { %>
+                                                <button class="btn btn-warning w-20">
+                                                    <a href="/courses/<%= course._id %>/edit"
+                                                        class="text-decoration-none text-white">Update</a>
+                                                </button>
+                                                <form action="/courses/<%= course._id %>/delete" method="POST"
+                                                    style="display:inline;">
+                                                    <button type="submit" class="btn btn-danger w-20">Delete</button>
+                                                </form>
+                                                <% } %>
+                                                    <% } %>
+                                                        <!-- Student view-->
+                                                        <% if (user && user.studentOrTeacher==='student' ) { %>
+                                                            <% if (user.schedule && user.schedule.includes(course._id))
+                                                                { %>
+                                                                <!-- Show "Drop" button if the course is already in the student's schedule -->
+                                                                <form action="/schedule/drop" method="POST"
+                                                                    style="display:inline;">
+                                                                    <input type="hidden" name="courseId"
+                                                                        value="<%= course._id %>">
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Drop</button>
+                                                                </form>
+                                                                <% } else { %>
+                                                                    <!-- Show "Add" button if the course is not in the student's schedule -->
+                                                                    <form action="/schedule/add" method="POST"
+                                                                        style="display:inline;">
+                                                                        <input type="hidden" name="courseId"
+                                                                            value="<%= course._id %>">
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">Add to
+                                                                            Schedule</button>
+                                                                    </form>
+                                                                    <% } %>
+                                                                        <% } %>
                                     </div>
                                 </div>
                                 <% }) %>

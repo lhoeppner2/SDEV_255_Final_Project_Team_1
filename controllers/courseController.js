@@ -1,4 +1,5 @@
 // controllers/courseController.js
+const User = require('../models/User');
 const Course = require('../models/Course');
 
 // GET /courses - List all courses
@@ -19,9 +20,20 @@ const showCreateCourseForm = (req, res) => {
 
 // POST /courses - Create a new course
 const createCourse = async (req, res) => {
+    
     try {
         const course = new Course(req.body);
         await course.save();
+        
+        // Find the logged-in user
+        const user = await User.findById(req.user._id);
+        if (!user) {
+        return res.status(404).send('User not found');
+        }
+        // Save course to their schedule
+        user.schedule.push(course);
+        await user.save();
+        
         res.redirect('/courses');
     } catch (error) {
         console.error('Error saving the course:', error);
@@ -55,7 +67,7 @@ const showEditCourseForm = async (req, res) => {
 const updateCourse = async (req, res) => {
     try {
         await Course.findByIdAndUpdate(req.params.id, req.body);
-        res.redirect('/courses');
+        res.redirect('/schedule');
     } catch (error) {
         console.error('Error updating course:', error);
         res.status(500).send('Error updating course');
@@ -66,7 +78,7 @@ const updateCourse = async (req, res) => {
 const deleteCourse = async (req, res) => {
     try {
         await Course.findByIdAndDelete(req.params.id);
-        res.redirect('/courses');
+        res.redirect('/schedule');
     } catch (error) {
         console.error('Error deleting course:', error);
         res.status(500).send('Error deleting course');

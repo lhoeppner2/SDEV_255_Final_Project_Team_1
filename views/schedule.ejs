@@ -11,44 +11,67 @@
             <div class="container text-center mt-4 flex-grow-1">
                 <h1>Your Schedule</h1>
 
-                <% if (user && user.studentOrTeacher==='student' ) { %>
-                    <% if (user.schedule && user.schedule.length> 0) { %>
-                        <div class="accordion" id="accordionExample">
-                            <% user.schedule.forEach((course, index)=> { %>
-                                <% if (course) { %>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>"
-                                                aria-expanded="false" aria-controls="collapse<%= index %>">
-                                                <%= course.courseId %>: <%= course.name %>
-                                            </button>
-                                        </h2>
-                                        <div id="collapse<%= index %>" class="accordion-collapse collapse pb-3"
-                                            data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                Course ID: <%= course.courseId %><br>
-                                                    Name: <%= course.name %><br>
-                                                        Subject Area: <%= course.subject %><br>
-                                                            Credits: <%= course.credits %><br>
-                                                                Description: <%= course.description %><br>
-                                            </div>
+                <% if (user.schedule && user.schedule.length> 0) { %>
+                    <div class="accordion" id="accordionExample">
+                        <% user.schedule.forEach((course, index)=> { %>
+                            <% if (course) { %>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>"
+                                            aria-expanded="false" aria-controls="collapse<%= index %>">
+                                            <%= course.courseId %>: <%= course.name %>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse<%= index %>" class="accordion-collapse collapse pb-3"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            Course ID: <%= course.courseId %><br>
+                                                Name: <%= course.name %><br>
+                                                    Subject Area: <%= course.subject %><br>
+                                                        Credits: <%= course.credits %><br>
+                                                            Description: <%= course.description %><br>
+                                        </div>
+                                        <% if (user && user.studentOrTeacher==='student' ) { %>
                                             <form action="/schedule/drop" method="POST" style="display:inline;">
                                                 <input type="hidden" name="courseId" value="<%= course._id %>">
                                                 <button type="submit" class="btn btn-danger">Drop</button>
                                             </form>
-                                        </div>
+                                            <% } %>
+                                                <% if (user && user.studentOrTeacher==='teacher' ) {%>
+                                                    <button class="btn btn-warning w-20">
+                                                        <a href="/courses/<%= course._id %>/edit"
+                                                            class="text-decoration-none text-white">Update</a>
+                                                    </button>
+                                                    <form action="/courses/<%= course._id %>/delete" method="POST"
+                                                        style="display:inline;">
+                                                        <button type="submit"
+                                                            class="btn btn-danger w-20">Delete</button>
+                                                    </form>
+                                                    <% } %>
                                     </div>
-                                    <% } else { %>
-                                        <p>Course not found.</p>
-                                        <% } %>
-                                            <% }) %>
-                        </div>
-                        <% } else { %>
-                            <p>Your schedule is empty. Add some courses <a href="/courses"
-                                    style="text-decoration:none">HERE</a>!</p>
+                                </div>
+                                <% } else { %>
+                                    <p>Course not found.</p>
+                                    <% } %>
+                                        <% }) %>
+                    </div>
+                    <% } else { %>
+                        <p>Your schedule is empty. Add some courses
+
+                            <!-- Teacher view -->
+                            <% if (user && user.studentOrTeacher==='teacher' ) { %>
+                                <a href="/courses/new" style="text-decoration:none">HERE</a>!
+                        </p>
+                        <% } else {%>
+
+
+                            <a href="/courses" style="text-decoration:none">HERE</a>!</p>
+
+
                             <% } %>
                                 <% } %>
+
             </div>
     </body>
     <!-- Footer -->
